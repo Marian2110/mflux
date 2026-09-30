@@ -101,11 +101,11 @@ class ZImageControlnetUtil:
 
     @staticmethod
     def _preprocess(img: PIL.Image.Image, control_type: ControlType) -> PIL.Image.Image:
-        import cv2  # only here: OpenCV is optional
         # Union checkpoints accept any modality as an already-preprocessed hint, and every modality is
         # now computed locally: canny/mlsd via OpenCV, depth via DepthPro, hed and pose via native-MLX
         # ports of ControlNetHED and OpenPose.
         if control_type == ControlType.canny:
+            import cv2  # only here: OpenCV is optional
             # OpenCV Canny expects an 8-bit single-channel image.
             gray_u8 = np.array(img.convert("L"), dtype=np.uint8)
             edges_u8 = cv2.Canny(gray_u8, 100, 200)
