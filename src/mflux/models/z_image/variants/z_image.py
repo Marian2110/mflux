@@ -36,6 +36,7 @@ class ZImage(nn.Module):
         bake_lora: bool = True,
         model_config: ModelConfig = ModelConfig.z_image_turbo(),
         float32: bool = False,
+        compute_precision: mx.Dtype | None = None,
     ):
         super().__init__()
         ZImageInitializer.init(
@@ -47,6 +48,7 @@ class ZImage(nn.Module):
             bake_lora=bake_lora,
             model_config=model_config,
             float32=float32,
+            compute_precision=compute_precision,
         )
 
     def generate_image(
