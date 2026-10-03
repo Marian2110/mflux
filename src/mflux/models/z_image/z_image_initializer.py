@@ -42,6 +42,7 @@ class ZImageInitializer:
         ZImageInitializer._apply_lora(model, lora_paths, lora_scales, bake_lora)
         model.float32 = float32
         model.transformer.set_float32(float32)
+        model.compute_precision = precision
         if compute_precision is not None:
             # Last, so it casts the final parameters, whatever quantization and LoRA produced.
             model.transformer.apply_compute_precision(precision)
