@@ -595,7 +595,9 @@ Measured on an M1 Max (64 GB) at 1024×1024. PSNR compares each image with the o
 | FLUX.2 klein 9B, unquantized | 11.6 → 10.5 | −4% to −12% | 30–43 dB |
 | Qwen-Image 2.1 edit, 6-step LoRA, unquantized | 12.6 → 10.8 | −12% | 44–48 dB |
 
-M2 and later GPUs have native bfloat16, so the gain there is likely smaller. It has not been measured.
+The gain depends on the chip. Reported in the pull request discussion: an M2 Ultra ran 18% to 22% faster in total, and an M5 Max showed no change. On an M4 Max (36 GB), Z-Image Turbo `-q 4` took 4% to 6% less time for each step. FLUX.2 klein 9B KV and Qwen-Image 2.1 changed by less than the run-to-run noise.
+
+`--float32` exists only on the Z-Image commands. The FLUX.2 and Qwen-Image 2.1 commands have no `--float32` option.
 
 <details>
 <summary>Python API</summary>

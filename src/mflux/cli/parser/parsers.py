@@ -155,7 +155,7 @@ class CommandLineParser(argparse.ArgumentParser):
         self.add_argument("--quantize",  "-q", type=int, choices=ui_defaults.QUANTIZE_CHOICES, default=None, help=f"Quantize the model ({' or '.join(map(str, ui_defaults.QUANTIZE_CHOICES))}, Default is None)")
 
     def add_compute_precision_arguments(self) -> None:
-        self.add_argument("--compute-precision", type=str, choices=sorted(ComputePrecision.CHOICES), default=None, help="Run the inside of the attention and feed-forward layers in this precision; the residual stream, norms, text encoder and VAE keep the model's own. float16 targets GPUs without native bfloat16 (Apple M1 family), where it was measured faster on an M1 Max; the image changes slightly for the same seed. Unmeasured on M2 and later. Default: off.")
+        self.add_argument("--compute-precision", type=str, choices=sorted(ComputePrecision.CHOICES), default=None, help="Run the inside of the attention and feed-forward layers in this precision; the residual stream, norms, text encoder and VAE keep the model's own. float16 helps most on GPUs with slow bfloat16 (Apple M1 and M2); the gain is small or zero on M4 and M5. The image changes slightly for the same seed. Default: off.")
 
     def add_lora_arguments(self) -> None:
         self.supports_lora = True
