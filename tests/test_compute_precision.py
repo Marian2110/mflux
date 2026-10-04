@@ -450,6 +450,7 @@ class Generate:
             bits=None,
             lora_paths=None,
             lora_scales=None,
+            float32=False,
             compute_precision=precision,
         )
         return model
@@ -751,6 +752,21 @@ class TestImageMetadata:
 
         assert json.loads(sidecar.read_text()).get("compute_precision") == expected
         assert command.build_parser().parse_args().compute_precision == expected
+
+    def test_z_image_records_float32_and_compute_precision_together(self, monkeypatch, tmp_path):
+        # --float32 (#803) and --compute-precision are independent; an image made with both records both.
+        reset_cli_globals(monkeypatch)
+        model = Generate._model(ZImage, ModelConfig.z_image_turbo(), FLOAT16)
+        model.float32 = True
+        image = model.generate_image(seed=1, prompt="x", num_inference_steps=1, height=64, width=64)
+        image.save(tmp_path / "image.png", export_json_metadata=True)
+        sidecar = tmp_path / "image.metadata.json"
+        metadata = json.loads(sidecar.read_text())
+
+        assert (metadata.get("float32"), metadata.get("compute_precision")) == (True, "float16")
+        monkeypatch.setattr(sys, "argv", ["mflux", "--config-from-conf", str(sidecar)])
+        args = z_image_turbo_generate.build_parser().parse_args()
+        assert (args.float32, args.compute_precision) == (True, "float16")
 
 
 class TestSaving:

@@ -3,8 +3,8 @@ import math
 import mlx.core as mx
 from mlx import nn
 
-from mflux.models.common.config.model_config import ModelConfig
 from mflux.models.common.compute_precision import ComputePrecision
+from mflux.models.common.config.model_config import ModelConfig
 from mflux.models.z_image.model.z_image_transformer.attention import ZImageAttention
 from mflux.models.z_image.model.z_image_transformer.context_block import ZImageContextBlock
 from mflux.models.z_image.model.z_image_transformer.feed_forward import FeedForward
